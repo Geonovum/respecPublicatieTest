@@ -51,6 +51,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch --all
           git add snapshot.html
           if [[ "${{ steps.config.outputs.grep }}" == "true" ]] && ls static/*.pdf 1>/dev/null 2>&1; then
             mv static/*.pdf .
@@ -134,10 +135,10 @@ jobs:
       - name: Check links with Muffet
         run: |
           muffet \
-            --exclude '8080\/\S*\.pdf' \
+            --exclude '\.pdf$'  \
             --exclude '^https://gitdocumentatie.*' \
             --exclude '^https://docs.geostandaarden.*' \
-            --exclude 'localhost:8080' \
+            --exclude '.*localhost.*' \
             --header 'user-agent:Curl' \
             --ignore-fragments \
             --one-page-only \
